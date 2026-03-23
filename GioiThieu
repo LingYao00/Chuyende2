@@ -1,0 +1,147 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Team App',
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
+      ),
+      home: HomePage(),
+    );
+  }
+}
+
+class Member {
+  final String name;
+  final String role;
+  final String description;
+  final String image;
+
+  Member({
+    required this.name,
+    required this.role,
+    required this.description,
+    required this.image,
+  });
+}
+
+class HomePage extends StatelessWidget {
+  final List<Member> members = [
+    Member(
+      name: "Lưu Quốc Triệu",
+      role: "Leader",
+      description: "Quản lý dự án, định hướng team",
+      image: "https://i.pravatar.cc/150?img=1",
+    ),
+    Member(
+      name: "Trần Ngọc Kiên",
+      role: "Developer",
+      description: "Xây dựng ứng dụng Flutter",
+      image: "https://i.pravatar.cc/150?img=2",
+    ),
+    Member(
+      name: "Trần Thị Kim Khánh",
+      role: "Designer",
+      description: "Thiết kế UI/UX",
+      image: "https://i.pravatar.cc/150?img=3",
+    ),
+    Member(
+      name: "Nguyễn Đức Vũ",
+      role: "Tester",
+      description: "Kiểm thử và sửa lỗi",
+      image: "https://i.pravatar.cc/150?img=4",
+    ),
+    Member(
+      name: "Vũ Ngọc Giang",
+      role: "Marketing",
+      description: "Quảng bá sản phẩm",
+      image: "https://i.pravatar.cc/150?img=5",
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Team Members"),
+        centerTitle: true,
+      ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          int crossAxisCount = constraints.maxWidth > 800 ? 3 : 1;
+
+          return GridView.builder(
+            padding: EdgeInsets.all(16),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+              childAspectRatio: 0.75,
+            ),
+            itemCount: members.length,
+            itemBuilder: (context, index) {
+              final member = members[index];
+
+              return Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: LinearGradient(
+                    colors: [Colors.deepPurple, Colors.purpleAccent],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 10,
+                      offset: Offset(0, 5),
+                    )
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundImage: NetworkImage(member.image),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      member.name,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      member.role,
+                      style: TextStyle(
+                        color: Colors.white70,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        member.description,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
