@@ -1,0 +1,95 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: TinhToanScreen(),
+    );
+  }
+}
+
+class TinhToanScreen extends StatefulWidget {
+  const TinhToanScreen({super.key});
+
+  @override
+  State<TinhToanScreen> createState() => _TinhToanScreenState();
+}
+
+class _TinhToanScreenState extends State<TinhToanScreen> {
+  final TextEditingController soTienController = TextEditingController();
+  final TextEditingController laiSuatController = TextEditingController();
+  final TextEditingController soNamController = TextEditingController();
+
+  double ketQua = 0;
+
+  void tinhToan() {
+    double soTien = double.tryParse(soTienController.text) ?? 0;
+    double laiSuat = double.tryParse(laiSuatController.text) ?? 0;
+    double soNam = double.tryParse(soNamController.text) ?? 0;
+
+    setState(() {
+      ketQua = soTien * laiSuat / 100 * soNam;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Máy tính lãi suất"),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TextField(
+              controller: soTienController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                labelText: "Số tiền",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: laiSuatController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                labelText: "Lãi suất (%)",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: soNamController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                labelText: "Số năm",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              "Kết quả: ${ketQua.toStringAsFixed(2)}",
+              style: const TextStyle(fontSize: 18),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: tinhToan,
+              child: const Text("Tính toán"),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
